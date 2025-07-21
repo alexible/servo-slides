@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servo Motors with Arduino - Complete Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            background: white;
+            margin: 20px 0;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            page-break-after: always;
+            min-height: 80vh;
+        }
+
+        .slide h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+        }
+
+        .slide h2 {
+            color: #e74c3c;
+            font-size: 2em;
+            margin: 30px 0 20px 0;
+            border-left: 5px solid #e74c3c;
+            padding-left: 15px;
+        }
+
+        .slide h3 {
+            color: #27ae60;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .slide ul, .slide ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            background: #f1c40f;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        .wiring-diagram {
+            background: #ecf0f1;
+            border: 2px solid #3498db;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .project-box {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .project-box h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .warning {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .tip {
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .circuit-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .circuit-table th, .circuit-table td {
+            border: 2px solid #3498db;
+            padding: 12px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .circuit-table th {
+            background: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #c0392b;
+        }
+
+        @media print {
+            .print-button { display: none; }
+            body { background: white; }
+            .slide { 
+                box-shadow: none; 
+                margin: 0;
+                min-height: auto;
+            }
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .large-text {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button" onclick="window.print()">🖨️ Print/Save as PDF</button>
+    
+    <div class="container">
+        <!-- Slide 1: Title Slide -->
+        <div class="slide">
+            <h1>Servo Motors with Arduino</h1>
+            <div class="center" style="margin-top: 50px;">
+                <p class="large-text">A Complete Guide for Beginners</p>
+                <p style="font-size: 1.2em; margin-top: 30px;">Class 10 - Electronics Workshop</p>
+                <p style="font-size: 1.1em; margin-top: 20px; color: #7f8c8d;">Duration: 1-2 Hours</p>
+                
+                <div style="margin-top: 80px; padding: 30px; background: #f8f9fa; border-radius: 15px;">
+                    <h3>What You'll Learn Today:</h3>
+                    <ul style="text-align: left; display: inline-block; margin-top: 20px;">
+                        <li>What is a servo motor and why use it?</li>
+                        <li>How to connect servo to Arduino Uno</li>
+                        <li>Programming servo motors step by step</li>
+                        <li>Multiple code examples</li>
+                        <li>Hands-on project ideas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: What is a Servo Motor? -->
+        <div class="slide">
+            <h1>What is a Servo Motor?</h1>
+            
+            <h2>Definition</h2>
+            <p>A <span class="highlight">servo motor</span> is a special type of motor that can rotate to a <strong>specific angle</strong> and <strong>hold that position</strong>.</p>
+            
+            <h2>Key Characteristics</h2>
+            <ul>
+                <li><strong>Precise Control:</strong> Can move to exact angles (0° to 180°)</li>
+                <li><strong>Position Feedback:</strong> Knows where it is and corrects itself</li>
+                <li><strong>Three Wires:</strong> Power, Ground, and Control signal</li>
+                <li><strong>Small Size:</strong> Perfect for robotics and automation</li>
+            </ul>
+
+            <h2>How is it Different from Regular Motors?</h2>
+            <div style="display: flex; justify-content: space-between; margin: 30px 0;">
+                <div style="flex: 1; margin-right: 20px; padding: 20px; background: #e8f5e8; border-radius: 10px;">
+                    <h3 style="color: #27ae60;">Regular DC Motor</h3>
+                    <ul>
+                        <li>Spins continuously</li>
+                        <li>Speed control only</li>
+                        <li>No position feedback</li>
+                        <li>Two wires (+ and -)</li>
+                    </ul>
+                </div>
+                <div style="flex: 1; margin-left: 20px; padding: 20px; background: #e8f4fd; border-radius: 10px;">
+                    <h3 style="color: #3498db;">Servo Motor</h3>
+                    <ul>
+                        <li>Moves to specific angles</li>
+                        <li>Position control</li>
+                        <li>Built-in feedback system</li>
+                        <li>Three wires (Power, Ground, Signal)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Fun Fact:</strong> Servo motors are used in RC cars, robots, camera gimbals, and even aircraft control surfaces!
+            </div>
+        </div>
+
+        <!-- Slide 3: Why Use Servo Motors? -->
+        <div class="slide">
+            <h1>Why Use Servo Motors?</h1>
+
+            <h2>Real-World Applications</h2>
+            
+            <h3>🤖 Robotics</h3>
+            <ul>
+                <li><strong>Robot Arms:</strong> Pick and place objects with precision</li>
+                <li><strong>Walking Robots:</strong> Control leg movements</li>
+                <li><strong>Camera Heads:</strong> Pan and tilt for surveillance</li>
+            </ul>
+
+            <h3>🏠 Home Automation</h3>
+            <ul>
+                <li><strong>Automatic Doors:</strong> Pet doors, cabinet doors</li>
+                <li><strong>Window Blinds:</strong> Adjust angle based on sunlight</li>
+                <li><strong>Smart Locks:</strong> Electronic deadbolts</li>
+            </ul>
+
+            <h3>🎮 Fun Projects</h3>
+            <ul>
+                <li><strong>RC Vehicles:</strong> Steering and control surfaces</li>
+                <li><strong>Animatronics:</strong> Moving characters and displays</li>
+                <li><strong>Interactive Art:</strong> Motion-based installations</li>
+            </ul>
+
+            <h2>Advantages for Beginners</h2>
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 10px; margin: 30px 0;">
+                <ul>
+                    <li><strong>Easy to Use:</strong> Simple 3-wire connection</li>
+                    <li><strong>No Complex Circuits:</strong> Built-in control system</li>
+                    <li><strong>Immediate Results:</strong> See movement right away</li>
+                    <li><strong>Safe Voltage:</strong> Works with 5V from Arduino</li>
+                    <li><strong>Affordable:</strong> Cost-effective for learning</li>
+                </ul>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Remember:</strong> Always double-check your wiring before powering on!
+            </div>
+        </div>
+
+        <!-- Slide 4: Arduino Uno Pin Configuration -->
+        <div class="slide">
+            <h1>Arduino Uno & Servo Connection</h1>
+
+            <h2>Arduino Uno Pin Layout</h2>
+            <div class="wiring-diagram">
+                <h3>Arduino Uno Pins We'll Use:</h3>
+                <table class="circuit-table">
+                    <tr>
+                        <th>Pin Type</th>
+                        <th>Pin Number</th>
+                        <th>Purpose</th>
+                        <th>Servo Wire Color</th>
+                    </tr>
+                    <tr>
+                        <td>Digital PWM</td>
+                        <td>9</td>
+                        <td>Control Signal</td>
+                        <td>Orange/Yellow</td>
+                    </tr>
+                    <tr>
+                        <td>Power</td>
+                        <td>5V</td>
+                        <td>Power Supply</td>
+                        <td>Red</td>
+                    </tr>
+                    <tr>
+                        <td>Ground</td>
+                        <td>GND</td>
+                        <td>Ground/Negative</td>
+                        <td>Brown/Black</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h2>Why These Pins?</h2>
+            <h3>Digital Pin 9 (PWM)</h3>
+            <ul>
+                <li><strong>PWM Capable:</strong> Can generate precise timing signals</li>
+                <li><strong>Servo Library Support:</strong> Optimized for servo control</li>
+                <li><strong>Alternative Pins:</strong> 3, 5, 6, 9, 10, 11 (all PWM pins work)</li>
+            </ul>
+
+            <h3>5V Power Pin</h3>
+            <ul>
+                <li><strong>Stable Voltage:</strong> Provides consistent 5V power</li>
+                <li><strong>Sufficient Current:</strong> Can handle small servo motors</li>
+                <li><strong>Safe:</strong> Protected by Arduino's voltage regulator</li>
+            </ul>
+
+            <div class="tip">
+                <strong>💡 Pro Tip:</strong> For multiple servos or high-power servos, use an external power supply!
+            </div>
+        </div>
+
+        <!-- Slide 5: Step-by-Step Wiring -->
+        <div class="slide">
+            <h1>Step-by-Step Wiring Guide</h1>
+
+            <h2>What You Need</h2>
+            <ul style="font-size: 1.2em;">
+                <li>Arduino Uno board</li>
+                <li>Small servo motor (SG90 or similar)</li>
+                <li>3 jumper wires</li>
+                <li>USB cable for Arduino</li>
+                <li>Computer with Arduino IDE</li>
+            </ul>
+
+            <h2>Wiring Steps</h2>
+            
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 10px; margin: 20px 0;">
+                <h3>Step 1: Identify Servo Wires</h3>
+                <table class="circuit-table">
+                    <tr>
+                        <th>Wire Color</th>
+                        <th>Function</th>
+                        <th>Connect To</th>
+                    </tr>
+                    <tr>
+                        <td style="background: #e74c3c; color: white;"><strong>Red</strong></td>
+                        <td>Power (+5V)</td>
+                        <td>Arduino 5V pin</td>
+                    </tr>
+                    <tr>
+                        <td style="background: #8b4513; color: white;"><strong>Brown/Black</strong></td>
+                        <td>Ground (0V)</td>
+                        <td>Arduino GND pin</td>
+                    </tr>
+                    <tr>
+                        <td style="background: #ff8c00; color: white;"><strong>Orange/Yellow</strong></td>
+                        <td>Control Signal</td>
+                        <td>Arduino Pin 9</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Step 2: Make Connections</h3>
+            <ol style="font-size: 1.2em;">
+                <li><strong>Power First:</strong> Connect RED wire to 5V pin</li>
+                <li><strong>Ground Second:</strong> Connect BROWN/BLACK wire to GND pin</li>
+                <li><strong>Signal Last:</strong> Connect ORANGE/YELLOW wire to Digital Pin 9</li>
+                <li><strong>Double Check:</strong> Verify all connections are secure</li>
+            </ol>
+
+            <div class="warning">
+                <strong>⚠️ Safety First:</strong> Always disconnect power when making wiring changes!
+            </div>
+
+            <div class="tip">
+                <strong>💡 Quick Check:</strong> Gently tug each wire to ensure solid connections.
+            </div>
+        </div>
+
+        <!-- Slide 6: Basic Programming Concepts -->
+        <div class="slide">
+            <h1>Programming Concepts</h1>
+
+            <h2>Servo Library</h2>
+            <p>Arduino provides a special <span class="highlight">Servo library</span> that makes controlling servos very easy!</p>
+
+            <h3>Key Functions</h3>
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 10px;">
+                <ul>
+                    <li><strong>attach():</strong> Connect servo to a pin</li>
+                    <li><strong>write():</strong> Move servo to specific angle (0-180°)</li>
+                    <li><strong>read():</strong> Get current servo position</li>
+                    <li><strong>detach():</strong> Disconnect servo from pin</li>
+                </ul>
+            </div>
+
+            <h2>PWM Signal Explanation</h2>
+            <p>Servos use <span class="highlight">PWM (Pulse Width Modulation)</span> signals:</p>
+            <ul>
+                <li><strong>Frequency:</strong> 50 Hz (one pulse every 20ms)</li>
+                <li><strong>Pulse Width:</strong> 1-2ms determines angle</li>
+                <li><strong>1ms pulse:</strong> 0° position</li>
+                <li><strong>1.5ms pulse:</strong> 90° position (center)</li>
+                <li><strong>2ms pulse:</strong> 180° position</li>
+            </ul>
+
+            <h2>Basic Program Structure</h2>
+            <div class="code-block">
+#include &lt;Servo.h&gt;          // Include servo library
+Servo myServo;             // Create servo object
+
+void setup() {
+  myServo.attach(9);       // Attach servo to pin 9
+}
+
+void loop() {
+  myServo.write(90);       // Move to 90 degrees
+  delay(1000);             // Wait 1 second
+}
+            </div>
+
+            <div class="tip">
+                <strong>💡 Remember:</strong> The servo library handles all the complex PWM timing for you!
+            </div>
+        </div>
+
+        <!-- Slide 7: First Code Example -->
+        <div class="slide">
+            <h1>Code Example 1: Basic Movement</h1>
+
+            <h2>Simple Back and Forth Movement</h2>
+            <p>Let's start with a simple program that moves the servo back and forth:</p>
+
+            <div class="code-block">
+// Include the servo library
+#include &lt;Servo.h&gt;
+
+// Create a servo object
+Servo myServo;
+
+void setup() {
+  // Attach the servo to pin 9
+  myServo.attach(9);
+  
+  // Initialize serial communication for debugging
+  Serial.begin(9600);
+  Serial.println("Servo Test Started!");
+}
+
+void loop() {
+  // Move to 0 degrees
+  Serial.println("Moving to 0 degrees");
+  myServo.write(0);
+  delay(1000);  // Wait 1 second
+  
+  // Move to 90 degrees (center)
+  Serial.println("Moving to 90 degrees");
+  myServo.write(90);
+  delay(1000);  // Wait 1 second
+  
+  // Move to 180 degrees
+  Serial.println("Moving to 180 degrees");
+  myServo.write(180);
+  delay(1000);  // Wait 1 second
+  
+  // Move back to center
+  Serial.println("Moving back to 90 degrees");
+  myServo.write(90);
+  delay(1000);  // Wait 1 second
+}
+            </div>
+
+            <h2>Code Explanation</h2>
+            <ul>
+                <li><strong>Line 2:</strong> Include servo library</li>
+                <li><strong>Line 5:</strong> Create servo object named "myServo"</li>
+                <li><strong>Line 8:</strong> Attach servo to pin 9</li>
+                <li><strong>Line 15, 20, 25, 30:</strong> Move servo to different angles</li>
+                <li><strong>delay(1000):</strong> Wait 1000 milliseconds (1 second)</li>
+            </ul>
+
+            <div class="tip">
+                <strong>💡 Try This:</strong> Change the delay values to make the servo move faster or slower!
+            </div>
+        </div>
+
+        <!-- Slide 8: Code Example 2 -->
+        <div class="slide">
+            <h1>Code Example 2: Smooth Sweep</h1>
+
+            <h2>Gradual Movement</h2>
+            <p>This code makes the servo move smoothly from 0° to 180° and back:</p>
+
+            <div class="code-block">
+#include &lt;Servo.h&gt;
+
+Servo myServo;
+
+void setup() {
+  myServo.attach(9);
+  Serial.begin(9600);
+  Serial.println("Smooth Servo Sweep Started!");
+}
+
+void loop() {
+  // Sweep from 0 to 180 degrees
+  for (int angle = 0; angle &lt;= 180; angle++) {
+    myServo.write(angle);
+    Serial.print("Angle: ");
+    Serial.println(angle);
+    delay(15);  // Small delay for smooth movement
+  }
+  
+  // Wait at 180 degrees
+  delay(500);
+  
+  // Sweep from 180 to 0 degrees
+  for (int angle = 180; angle &gt;= 0; angle--) {
+    myServo.write(angle);
+    Serial.print("Angle: ");
+    Serial.println(angle);
+    delay(15);  // Small delay for smooth movement
+  }
+  
+  // Wait at 0 degrees
+  delay(500);
+}
+            </div>
+
+            <h2>New Concepts</h2>
+            <ul>
+                <li><strong>for loop:</strong> Repeats code with changing values</li>
+                <li><strong>angle++:</strong> Increases angle by 1 each time</li>
+                <li><strong>angle--:</strong> Decreases angle by 1 each time</li>
+                <li><strong>delay(15):</strong> Very short delay for smooth motion</li>
+            </ul>
+
+            <div class="tip">
+                <strong>💡 Experiment:</strong> Try changing delay(15) to delay(50) - what happens?
+            </div>
+        </div>
+
+        <!-- Slide 9: Code Example 3 -->
+        <div class="slide">
+            <h1>Code Example 3: User Control</h1>
+
+            <h2>Control Servo from Serial Monitor</h2>
+            <p>This code lets you control the servo by typing angles in the Serial Monitor:</p>
+
+            <div class="code-block">
+#include &lt;Servo.h&gt;
+
+Servo myServo;
+int currentAngle = 90;  // Start at center position
+
+void setup() {
+  myServo.attach(9);
+  Serial.begin(9600);
+  
+  // Move to starting position
+  myServo.write(currentAngle);
+  
+  Serial.println("Servo Control Ready!");
+  Serial.println("Enter angle (0-180) and press Enter:");
+  Serial.print("Current angle: ");
+  Serial.println(currentAngle);
+}
+
+void loop() {
+  // Check if data is available to read
+  if (Serial.available() &gt; 0) {
+    // Read the incoming angle
+    int newAngle = Serial.parseInt();
+    
+    // Check if angle is valid (0-180)
+    if (newAngle &gt;= 0 && newAngle &lt;= 180) {
+      currentAngle = newAngle;
+      myServo.write(currentAngle);
+      
+      Serial.print("Moved to angle: ");
+      Serial.println(currentAngle);
+    } else {
+      Serial.println("Error: Please enter angle between 0 and 180");
+    }
+    
+    Serial.println("Enter next angle:");
+  }
+}
+            </div>
+
+            <h2>How to Use</h2>
+            <ol>
+                <li>Upload the code to Arduino</li>
+                <li>Open Serial Monitor (Tools → Serial Monitor)</li>
+                <li>Type any number from 0 to 180</li>
+                <li>Press Enter</li>
+                <li>Watch the servo move!</li>
+            </ol>
+
+            <div class="tip">
+                <strong>💡 Cool Feature:</strong> This code includes error checking to prevent invalid angles!
+            </div>
+        </div>
+
+        <!-- Slide 10: Code Example 4 -->
+        <div class="slide">
+            <h1>Code Example 4: Multiple Servos</h1>
+
+            <h2>Controlling Two Servos</h2>
+            <p>This example shows how to control multiple servos simultaneously:</p>
+
+            <div class="code-block">
+#include &lt;Servo.h&gt;
+
+// Create two servo objects
+Servo servo1;
+Servo servo2;
+
+void setup() {
+  // Attach servos to different pins
+  servo1.attach(9);   // First servo on pin 9
+  servo2.attach(10);  // Second servo on pin 10
+  
+  Serial.begin(9600);
+  Serial.println("Dual Servo Dance Started!");
+  
+  // Start both servos at center position
+  servo1.write(90);
+  servo2.write(90);
+  delay(1000);
+}
+
+void loop() {
+  // Synchronized movement - both move together
+  Serial.println("Synchronized movement");
+  for (int angle = 0; angle &lt;= 180; angle += 5) {
+    servo1.write(angle);
+    servo2.write(angle);
+    delay(50);
+  }
+  
+  delay(500);
+  
+  // Opposite movement - mirror each other
+  Serial.println("Mirror movement");
+  for (int angle = 0; angle &lt;= 180; angle += 5) {
+    servo1.write(angle);
+    servo2.write(180 - angle);  // Opposite direction
+    delay(50);
+  }
+  
+  delay(500);
+  
+  // Return to center
+  servo1.write(90);
+  servo2.write(90);
+  delay(2000);
+}
+            </div>
+
+            <h2>Wiring for Two Servos</h2>
+            <table class="circuit-table">
+                <tr>
+                    <th>Servo</th>
+                    <th>Signal Pin</th>
+                    <th>Power</th>
+                    <th>Ground</th>
+                </tr>
+                <tr>
+                    <td>Servo 1</td>
+                    <td>Pin 9</td>
+                    <td>5V</td>
+                    <td>GND</td>
+                </tr>
+                <tr>
+                    <td>Servo 2</td>
+                    <td>Pin 10</td>
+                    <td>5V</td>
+                    <td>GND</td>
+                </tr>
+            </table>
+
+            <div class="warning">
+                <strong>⚠️ Power Note:</strong> Two servos may need external power supply for reliable operation!
+            </div>
+        </div>
+
+        <!-- Slide 11: Project Ideas -->
+        <div class="slide">
+            <h1>Student Project Ideas</h1>
+
+            <div class="project-box">
+                <h2>Project 1: Automatic Pet Feeder Door</h2>
+                <h3>🐕 Difficulty: Easy</h3>
+                <p><strong>What it does:</strong> A servo opens and closes a small door to dispense pet food at scheduled times.</p>
+                <p><strong>Components needed:</strong></p>
+                <ul>
+                    <li>Arduino Uno</li>
+                    <li>Servo motor</li>
+                    <li>Small cardboard box</li>
+                    <li>Jumper wires</li>
+                </ul>
+                <p><strong>Skills learned:</strong> Basic servo control, timing, mechanical design</p>
+            </div>
+
+            <div class="project-box">
+                <h2>Project 2: Solar Panel Tracker</h2>
+                <h3>☀️ Difficulty: Medium</h3>
+                <p><strong>What it does:</strong> A servo rotates a small solar panel to follow a light source (flashlight).</p>
+                <p><strong>Components needed:</strong></p>
+                <ul>
+                    <li>Arduino Uno</li>
+                    <li>Servo motor</li>
+                    <li>2 Light Dependent Resistors (LDR)</li>
+                    <li>2 Resistors (10kΩ)</li>
+                    <li>Small solar panel or cardboard mock-up</li>
+                </ul>
+                <p><strong>Skills learned:</strong> Sensor input, servo output, feedback systems</p>
+            </div>
+
+            <div class="project-box">
+                <h2>Project 3: Smart Door Lock</h2>
+                <h3>🔐 Difficulty: Medium</h3>
+                <p><strong>What it does:</strong> A servo acts as a door lock that opens when the correct password is entered via Serial Monitor.</p>
+                <p><strong>Components needed:</strong></p>
+                <ul>
+                    <li>Arduino Uno</li>
+                    <li>Servo motor</li>
+                    <li>LED (for status indication)</li>
+                    <li>Cardboard door frame</li>
+                </ul>
+                <p><strong>Skills learned:</strong> String handling, password verification, security concepts</p>
+            </div>
+        </div>
+
+        <!-- Slide 12: Project 1 Solution -->
+        <div class="slide">
+            <h1>Project 1 Solution: Pet Feeder Door</h1>
+
+            <h2>Complete Code</h2>
+            <div class="code-block">
+#include &lt;Servo.h&gt;
+
+Servo feederServo;
+const int CLOSED_ANGLE = 0;    // Door closed position
+const int OPEN_ANGLE = 90;     // Door open position
+const long FEED_INTERVAL = 10000;  // 10 seconds for demo (use 3600000 for 1 hour)
+
+unsigned long lastFeedTime = 0;
+bool doorOpen = false;
+
+void setup() {
+  feederServo.attach(9);
+  Serial.begin(9600);
+  
+  // Start with door closed
+  feederServo.write(CLOSED_ANGLE);
+  doorOpen = false;
+  
+  Serial.println("Automatic Pet Feeder Started!");
+  Serial.println("Door will open every 10 seconds for 3 seconds");
+  
+  lastFeedTime = millis();  // Record start time
+}
+
+void loop() {
+  unsigned long currentTime = millis();
+  
+  // Check if it's time to feed
+  if (currentTime - lastFeedTime &gt;= FEED_INTERVAL && !doorOpen) {
